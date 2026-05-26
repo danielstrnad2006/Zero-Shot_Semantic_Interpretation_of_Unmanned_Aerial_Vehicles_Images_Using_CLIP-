@@ -1,0 +1,49 @@
+1.) Install Anaconda or Miniconda (for all users)
+
+2.) Install MSVC v142 toolset (VS 2019) from C++ Desktop Development
+	winget install --id=Microsoft.VisualStudio.2019.BuildTools -e
+
+3.) Install CUDA v11.8 (ignore missing Visual Studio warning)
+	https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local
+
+4.) Set CUDA_HOME=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8 in "Edit the system environment variables" > "Environment Variables"
+
+5.) Run CMD as administrator
+	C:\ProgramData\miniconda3\Scripts\activate.bat
+	call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+
+	conda create -n grounded_sam2 python=3.10
+	conda activate grounded_sam2
+	pip3 install torch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 --index-url https://download.pytorch.org/whl/cu118
+	pip install transformers==4.28.0
+	pip install ninja xlwings
+
+	cd ...\GroundedSAM2\git_clones
+	git clone https://github.com/facebookresearch/sam2.git
+	git clone https://github.com/IDEA-Research/GroundingDINO.git
+
+	cd GroundingDINO
+	set FORCE_CUDA=1
+	set TORCH_CUDA_ARCH_LIST=8.9+PTX
+	set DISTUTILS_USE_SDK=1
+	pip install --no-build-isolation -e .
+
+	cd ..
+	cd sam2
+	pip install -e .
+	
+6.) Download SAM 2.1 checkpoints and put into "...\sam2\checkpoints"
+	https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt
+	https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_small.pt
+	https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_base_plus.pt
+	https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt
+
+8.) Download GroundingDINO weights and put into "...\GroundingDINO\weights"
+	https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth
+	https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha2/groundingdino_swinb_cogcoor.pth
+
+7.) From SAM 2 git-clone copy "sam2" and "checkpoints" folders to main project folder
+
+8.) From GroundingDINO git-clone copy "groundingdino" and "weights" folders to main project folder; rename "weights" to "gdino_checkpoints"
+
+9.) For UAVid application: copy UAVid repository to main project folder
