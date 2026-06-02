@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from PIL import Image
 from tqdm import tqdm
-import os
+import osF
 from support.scoring_general import save_and_evaluate_single_image
 import time 
 import pandas as pd
@@ -363,13 +363,15 @@ scale_threshold_matrix = {
     },
 }
 """
-test1_dir = r"C:\Users\danie\Desktop\Delft archive\AE2224\archive\uavid_train\seq1longprompt\Images"
-test2_dir = r"C:\Users\danie\Desktop\Delft archive\AE2224\archive\uavid_train\seq1shortprompt\Images"
-cv_dir = r"C:\Users\danie\Desktop\Delft archive\AE2224\archive\uavid_val\seq67\Images"
+ # Define Image Directory
+test_dir = r"<path_to_your_input_images>"
+cv_dir = r"<path_to_your_input_images>
 
-sw_plot = True  # Set to False to skip visualization and just save predictions
-image_dir = test1_dir
+image_dir = test_dir  # Change this to test2_dir or cv_dir as needed
+if not os.path.isdir(image_dir):
+    raise ValueError(f"Input folder not found: {image_dir}")
 image_paths = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if f.endswith(('.png', '.jpg', '.jpeg'))][::40]
+    
     
 miou_lst = []
 weighted_miou_lst = []
