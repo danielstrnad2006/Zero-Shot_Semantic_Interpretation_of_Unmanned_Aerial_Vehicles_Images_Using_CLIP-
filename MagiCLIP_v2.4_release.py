@@ -389,12 +389,12 @@ if __name__ == "__main__":
 
 
     # Define Image Directory
-    test1_dir = r"C:\Users\danie\Desktop\Delft archive\AE2224\archive\uavid_train\seq1longpromptMagiCLIP\Images"
-    test2_dir = r"C:\Users\danie\Desktop\Delft archive\AE2224\archive\uavid_train\seq1shortpromptMagiCLIP\Images"
-    cv_dir = r"C:\Users\danie\Desktop\Delft archive\AE2224\archive\uavid_val\seq67\Images"
+    test_dir = r"<path_to_your_input_images>"
+    cv_dir = r"<path_to_your_input_images>
 
-
-    image_dir = test1_dir  # Change this to test2_dir or cv_dir as needed
+    image_dir = test_dir  # Change this to test2_dir or cv_dir as needed
+    if not os.path.isdir(image_dir):
+        raise ValueError(f"Input folder not found: {image_dir}")
     image_paths = [os.path.join(image_dir, f) for f in os.listdir(image_dir) if f.endswith(('.png', '.jpg', '.jpeg'))][::40]
     
 
